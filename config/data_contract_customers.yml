@@ -1,18 +1,37 @@
 dataset: customers
-owner: "TODO"
+owner: "CRM / Customer Operations"
 source_type: csv
 primary_key: customer_id
 delivery:
-  cadence: "TODO"
+  cadence: "daily_batch"
 fields:
   - name: customer_id
     type: string
     nullable: false
     unique: true
+  - name: first_name
+    type: string
+    nullable: false
+  - name: last_name
+    type: string
+    nullable: false
   - name: email
     type: string
     nullable: true
+  - name: city
+    type: string
+    nullable: true
+  - name: signup_date
+    type: date
+    nullable: false
+  - name: customer_segment
+    type: string
+    nullable: false
 quality_rules:
-  - "TODO: define at least 5 rules"
+  - "primary_key_uniqueness: customer_id must be strictly unique with 0 duplicate values."
+  - "row_uniqueness: No identical duplicate rows across all combined attributes."
+  - "completeness_identifiers: customer_id, first_name, and last_name must not contain null or empty string values."
+  - "format_validity: email values must conform to valid standard email regex pattern (^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$) when present."
+  - "temporal_validity: signup_date must be formatted as YYYY-MM-DD and cannot be a future date."
 change_policy:
-  schema_change_notice: "TODO"
+  schema_change_notice: "14 days advance written notice required prior to breaking schema alterations, column removals, or type modifications."
